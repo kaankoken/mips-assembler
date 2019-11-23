@@ -1,6 +1,4 @@
 #include "RType.h"
-#include <iostream>
-
 /**
  * Constructor of Rtype instructions
  * It also used for populating the data
