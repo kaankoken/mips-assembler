@@ -4,6 +4,7 @@
 #include <cstring>
 #include <vector>
 #include <bitset>
+#include <stack> 
 #include "RType/RType.h"
 
 class SyntaxChecker : RType {
@@ -11,6 +12,8 @@ class SyntaxChecker : RType {
         int rTypeAreaLen[5];
         int iTypeAreaLen[3];
         int jTypeAreaLen;
+        
+        bool charCheck(std::string);
     public:
         SyntaxChecker();
         ~SyntaxChecker();
