@@ -34,6 +34,6 @@ std::tuple<int, int, int> RType::findInst(std::string key) const {
         return std::make_tuple(-1, -1, -1);
     }
     else
-        return { std::get<0>(instruction->second), std::get<1>(instruction->second),
-        std::get<2>(instruction->second) };
+        return std::make_tuple(std::get<0>(instruction->second), std::get<1>(instruction->second),
+        std::get<2>(instruction->second));
 }
