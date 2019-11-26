@@ -2,6 +2,7 @@
 #include "ErrorHandling.h"
 #include <fstream>
 #include <filesystem>
+#include "IType/IType.h"
 
 class Main : ErrorHandling {
     public:
@@ -51,6 +52,8 @@ int main(int argc, char **argv) {
     std::string fileName = "./test1.txt";
     assembler.readFile(fileName);
     std::cout << "Welcome to the MIPS ASSEMBLER" << std::endl;
+    IType x;
+    std::cout << x.findInst << std::endl; 
     
     do {
         menuOption = assembler.menu();

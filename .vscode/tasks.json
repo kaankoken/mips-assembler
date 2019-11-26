@@ -11,10 +11,11 @@
                 "-g",
                 "src/main.cpp",
                 "src/ErrorHandling.cpp",
+                "src/IType/IType.cpp",
                 "-std=c++17",
                 "-lstdc++fs",
                 "-o",
-                "bin/main",
+                "bin/main.exe",
             ]
         }
     ]
