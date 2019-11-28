@@ -37,3 +37,5 @@ std::pair<int, int> IType::findInst(std::string key) const {
         return { std::get<0>(instruction->second), std::get<1>(instruction->second),
         };
 }
+
+//codes are tested
