@@ -4,8 +4,8 @@
  * It also used for populating the data
 */
 JType::JType() {
-    jTypeInst.insert({"test", {5, 5}});
-    jTypeInst.insert({"test1", {6, 5}});
+    jTypeInst.insert({"test2", {5, 5}});
+    jTypeInst.insert({"test3", {6, 5}});
 }
 /**
  * Descrutive of Jtype instructions
@@ -34,5 +34,5 @@ std::pair<int, int> JType::findInst(std::string key) const {
         return std::make_pair(-1, -1);
     }
     else
-        return { std::get<0>(instruction->second), std::get<1>(instruction->second) };
+        return std::make_pair(std::get<0>(instruction->second), std::get<1>(instruction->second));
 }

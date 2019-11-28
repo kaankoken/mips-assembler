@@ -4,8 +4,8 @@
  * It also used for populating the data
 */
 IType::IType() {
-    iTypeInst.insert({"test", {5, 5}});
-    iTypeInst.insert({"test1", {6, 5}});
+    iTypeInst.insert({"test4", {3, 5}});
+    iTypeInst.insert({"test5", {4, 5}});
 }
 /**
  * Descrutive of Itype instructions
@@ -34,8 +34,7 @@ std::pair<int, int> IType::findInst(std::string key) const {
         return std::make_pair(-1, -1);
     }
     else
-        return { std::get<0>(instruction->second), std::get<1>(instruction->second),
-        };
+        return std::make_pair(std::get<0>(instruction->second), std::get<1>(instruction->second));
 }
 
 //codes are tested
