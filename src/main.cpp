@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
     std::string fileName = "./test1.txt";
     assembler.readFile(fileName);
     std::cout << "Welcome to the MIPS ASSEMBLER" << std::endl;
-    
+
     do {
         menuOption = assembler.menu();
         switch (menuOption) {
