@@ -10,7 +10,7 @@ void SyntaxChecker::checkSyntax(std::string inst) {
     std::stack<char> temp;
     std::string result = checkInstType(inst);
     
-    if (result.empty() == true)
+    if (result.length() == 0)
         std::cout << "Error" << std::endl;
         //return NULL or false
     for (std::string::iterator it = inst.begin(); it != inst.end(); ++it) {
@@ -33,26 +33,26 @@ void SyntaxChecker::checkSyntax(std::string inst) {
 
 std::string SyntaxChecker::checkInstType(std:: string instType) {
     auto key = instType.substr(0, instType.find(' '));
-    std::vector result = { RType::findInst(key), RType::findInst(key), RType::findInst(key)};
-    // replace 2Rtype with IType and JType
-    if (std::get<0>(result.at(0)) != -1)
+    std::tuple result = std::make_tuple(RType::findInst(key), IType::findInst(key), JType::findInst(key));
+    std::cout << std::get<0>(std::get<0>(result));
+    if (std::get<0>(std::get<0>(result)) != -1)
         return std::string("RType");
-    else if (std::get<0>(result.at(1)) != -1)
+    else if (std::get<0>(std::get<1>(result)) != -1)
         return std::string("IType");
-    else if (std::get<0>(result.at(2)) != -1)
+    else if (std::get<0>(std::get<2>(result)) != -1)
         return std::string("JType");
-    // else if (std::get<0>(result.at(3)) != -1)
-    //     return std::string("file type");
-    else
-        return std::string("");
+    // else if (std::get<0>(std::get<3>(result)) != -1)
+        // return std::string("file type");
+    //else
+    return std::string("");
 }
 
-bool SyntaxChecker::checkBits(std::string inst) const {
-    int n = 5;
-    std::bitset x = std::bitset<sizeof(n)>(n);
-
-    std::cout<< std::stoi(x.to_string(), nullptr, 2);
-}
+// bool SyntaxChecker::checkBits(std::string inst) const {
+    // int n = 5;
+    // std::bitset x = std::bitset<sizeof(n)>(n);
+// 
+    // std::cout<< std::stoi(x.to_string(), nullptr, 2);
+// }
 
 std::vector<std::string> SyntaxChecker::splitInst(std::string inst) {
     size_t pos = 0;

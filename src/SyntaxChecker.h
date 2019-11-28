@@ -5,8 +5,11 @@
 #include <vector>
 #include <bitset>
 #include <stack> 
-#include "RType/RType.h"
-class SyntaxChecker : RType {
+#include "Instructions/RType.h"
+#include "Instructions/IType.h"
+#include "Instructions/JType.h"
+
+class SyntaxChecker : RType, IType, JType {
     private:
         int rTypeAreaLen[5];
         int iTypeAreaLen[3];
