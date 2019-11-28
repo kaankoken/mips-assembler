@@ -29,6 +29,7 @@ void SyntaxChecker::checkSyntax(std::string inst) {
     else
         std::cout << "No Error" << std::endl;
     std::vector<std::string> text = splitInst(inst);
+    //check bits
 }
 
 std::string SyntaxChecker::checkInstType(std:: string instType) {
