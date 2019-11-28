@@ -4,8 +4,8 @@
  * It also used for populating the data
 */
 RType::RType() {
-    rTypeInst.insert({"test", {5, 5, 5}});
-    rTypeInst.insert({"test1", {6, 5, 5}});
+    rTypeInst.insert({"test", {7, 5, 5}});
+    rTypeInst.insert({"test1", {8, 5, 5}});
 }
 /**
  * Descrutive of Rtype instructions
