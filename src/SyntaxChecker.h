@@ -6,14 +6,13 @@
 #include <bitset>
 #include <stack> 
 #include "RType/RType.h"
-
 class SyntaxChecker : RType {
     private:
         int rTypeAreaLen[5];
         int iTypeAreaLen[3];
         int jTypeAreaLen;
         
-        bool charCheck(std::string);
+        std::vector<std::string> splitInst(std::string);
     public:
         SyntaxChecker();
         ~SyntaxChecker();

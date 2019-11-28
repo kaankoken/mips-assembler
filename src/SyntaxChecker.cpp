@@ -5,9 +5,11 @@ SyntaxChecker::SyntaxChecker() : rTypeAreaLen { 5, 5, 5, 5, 6 },
                                  jTypeAreaLen { 26 } {}
 SyntaxChecker::~SyntaxChecker() {};
 
+//change return type
 void SyntaxChecker::checkSyntax(std::string inst) {
     std::stack<char> temp;
     std::string result = checkInstType(inst);
+    
     if (result.empty() == true)
         std::cout << "Error" << std::endl;
         //return NULL or false
@@ -26,6 +28,7 @@ void SyntaxChecker::checkSyntax(std::string inst) {
         std::cout << "Syntax Error" << std::endl;
     else
         std::cout << "No Error" << std::endl;
+    std::vector<std::string> text = splitInst(inst);
 }
 
 std::string SyntaxChecker::checkInstType(std:: string instType) {
@@ -44,7 +47,40 @@ std::string SyntaxChecker::checkInstType(std:: string instType) {
         return std::string("");
 }
 
-// bool SyntaxChecker::checkBits(std::string inst) const {
-    // int n;
-    // std::cout << std::bitset<sizeof(n) * 2 >(n).to_string();
-// }
+bool SyntaxChecker::checkBits(std::string inst) const {
+    int n = 5;
+    std::bitset x = std::bitset<sizeof(n)>(n);
+
+    std::cout<< std::stoi(x.to_string(), nullptr, 2);
+}
+
+std::vector<std::string> SyntaxChecker::splitInst(std::string inst) {
+    size_t pos = 0;
+    std::string token, delimiter = " ";
+    std::vector<std::string> temp;
+    while ((pos = inst.find(delimiter)) != std::string::npos || inst.length() != 0) {
+        if (inst.find(delimiter) != std::string::npos)
+            token = inst.substr(0, pos);
+        else {
+            token.assign(inst);
+            inst.erase(0, inst.length());
+        }
+
+        if (token.find(',') != std::string::npos)
+            token.replace(token.find(','), 1, "");
+        if (token.find('$') != std::string::npos)
+            token.replace(token.find('$'), 1, "");
+        if (token.find('(') != std::string::npos) {
+            std::string temp2 = token.substr(0, token.find('('));
+            if (temp2.find('x') != std::string::npos)
+                temp2 = temp2.substr(temp2.find('x') + 1, temp2.length() - 1);
+            temp.push_back(temp2);
+            token = token.substr(token.find('(') + 1, token.find(')'));
+            token.replace(token.find(')'), 1, "");
+        }
+        temp.push_back(token);
+        inst.erase(0, pos + delimiter.length());
+    }
+    
+    return temp;
+}
