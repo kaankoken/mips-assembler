@@ -4,8 +4,8 @@
  * It also used for populating the data
 */
 RType::RType() {
-    rTypeInst.insert({"test", {5, 5, 5}});
-    rTypeInst.insert({"test1", {6, 5, 5}});
+    rTypeInst.insert({"test", {7, 5, 5}});
+    rTypeInst.insert({"test1", {8, 5, 5}});
 }
 /**
  * Descrutive of Rtype instructions
@@ -34,6 +34,6 @@ std::tuple<int, int, int> RType::findInst(std::string key) const {
         return std::make_tuple(-1, -1, -1);
     }
     else
-        return { std::get<0>(instruction->second), std::get<1>(instruction->second),
-        std::get<2>(instruction->second) };
+        return std::make_tuple(std::get<0>(instruction->second), std::get<1>(instruction->second),
+        std::get<2>(instruction->second));
 }
