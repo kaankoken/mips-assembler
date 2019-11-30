@@ -10,11 +10,7 @@
 #include "Instructions/JType.h"
 
 class SyntaxChecker : RType, IType, JType {
-    private:
-        int rTypeAreaLen[5];
-        int iTypeAreaLen[3];
-        int jTypeAreaLen;
-        
+    private:      
         std::vector<std::string> splitInst(std::string);
     public:
         SyntaxChecker();
