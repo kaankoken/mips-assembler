@@ -40,7 +40,7 @@ std::string SyntaxChecker::checkInstType(std:: string instType) {
         return std::string("RType");
     else if (std::get<0>(std::get<1>(result)) != -1)
         return std::string("IType");
-    else if (std::get<0>(std::get<2>(result)) != -1)
+    else if ((std::get<2>(result)) != -1)
         return std::string("JType");
     // else if (std::get<0>(std::get<3>(result)) != -1)
         // return std::string("file type");
