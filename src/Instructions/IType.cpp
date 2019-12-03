@@ -4,8 +4,26 @@
  * It also used for populating the data
 */
 IType::IType() {
-    iTypeInst.insert({"test4", {3, 5}});
-    iTypeInst.insert({"test5", {4, 5}});
+    iTypeInst.insert({"beq", {4,"rs rt imm"}});
+    iTypeInst.insert({"bne", {5,"rs rt imm"}});
+    iTypeInst.insert({"blez", {6,"rs imm"}});
+    iTypeInst.insert({"bgtz", {7,"rs imm"}});
+    iTypeInst.insert({"addi", {8,"rt rs imm"}});
+    iTypeInst.insert({"addiu", {9,"rt rs imm"}});
+    iTypeInst.insert({"slti", {10,"rt rs imm"}});
+    iTypeInst.insert({"sltiu", {11,"rt rs imm"}});
+    iTypeInst.insert({"andi", {12,"rt rs imm"}});
+    iTypeInst.insert({"ori", {13,"rt rs imm"}});
+    iTypeInst.insert({"xori", {14,"rt rs imm"}});
+    iTypeInst.insert({"lui", {15,"rt imm"}});
+    iTypeInst.insert({"lb", {32,"rt imm rs"}});
+    iTypeInst.insert({"lh", {33,"rt imm rs"}});
+    iTypeInst.insert({"lw", {35,"rt imm rs"}});
+    iTypeInst.insert({"lbu", {36,"rt imm rs"}});
+    iTypeInst.insert({"lhu", {37,"rt imm rs"}});
+    iTypeInst.insert({"sb", {40,"rt imm rs"}});
+    iTypeInst.insert({"sh", {41,"rt imm rs"}});
+    iTypeInst.insert({"sw", {43,"rt imm rs"}});
 }
 /**
  * Descrutive of Itype instructions
@@ -14,27 +32,42 @@ IType::~IType() {
     iTypeInst.clear();
 }
 /**
- * @return unordered_map<string, pair<int, int>>
+ * @return unordered_map<string, pair<int, std::string>>
  * It returns the whole instruction set that defined.
 */
-std::unordered_map<std::string, std::pair<int, int>> IType::getWholeInst() const {
+std::unordered_map<std::string, std::pair<int, std::string>> IType::getWholeInst() const {
     return iTypeInst;
 }
 /**
  * @param key -> string
- * @return pair<int, int>
+ * @return pair<int, std::string>
  * if instruction is found return pair
- * else return -1, -1
+ * else return -1, NULL
 */
-std::pair<int, int> IType::findInst(std::string key) const {
+std::pair<int, std::string> IType::findInst(std::string key) const {
     auto instruction = iTypeInst.find(key);
     
     if (instruction == iTypeInst.end()) {
         std::cout << "Not Found" << std::endl;
-        return std::make_pair(-1, -1);
+        return std::make_pair(-1, "");
     }
     else
         return std::make_pair(std::get<0>(instruction->second), std::get<1>(instruction->second));
 }
 
-//codes are tested
+std::string IType::fieldChecker(std::vector<std::string> inst) {
+    //opcode $rs $rt imm
+    if (inst.size() == 4) {
+        std::string temp = inst.back();
+        if (temp.at(0) > 96 && temp.at(0) < 123)
+            return std::string("rs");
+        else
+            return std::string("imm");
+    }
+    else {
+        if (std::strcmp(inst.at(0).c_str(), "lui") == 0)
+            return std::string("rt");
+        else
+            return std::string("rs");
+    }
+}

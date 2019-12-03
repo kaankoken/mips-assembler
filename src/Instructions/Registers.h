@@ -2,12 +2,12 @@
 #include <iostream>
 #include <unordered_map>
 
-class JType {
+class Registers {
     private:
-        std::unordered_map<std::string, int> jTypeInst;
+        std::unordered_map<std::string, int> registers;
     public:
-        JType();
-        ~JType();
+        Registers();
+        ~Registers();
                
         int findInst(std::string) const;
         std::unordered_map<std::string, int> getWholeInst() const;
