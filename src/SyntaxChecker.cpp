@@ -1,12 +1,10 @@
 #include "SyntaxChecker.h"
 
-SyntaxChecker::SyntaxChecker() : rTypeAreaLen { 5, 5, 5, 5, 6 },
-                                 iTypeAreaLen { 5, 5, 16 },      
-                                 jTypeAreaLen { 26 } {}
+SyntaxChecker::SyntaxChecker() {};
 SyntaxChecker::~SyntaxChecker() {};
 
 //change return type
-void SyntaxChecker::checkSyntax(std::string inst) {
+std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
     std::stack<char> temp;
     std::string result = checkInstType(inst);
     
@@ -29,23 +27,23 @@ void SyntaxChecker::checkSyntax(std::string inst) {
     else
         std::cout << "No Error" << std::endl;
     std::vector<std::string> text = splitInst(inst);
+    return text;
     //check bits
 }
 
 std::string SyntaxChecker::checkInstType(std:: string instType) {
     auto key = instType.substr(0, instType.find(' '));
     std::tuple result = std::make_tuple(RType::findInst(key), IType::findInst(key), JType::findInst(key));
-    std::cout << std::get<0>(std::get<0>(result));
+
     if (std::get<0>(std::get<0>(result)) != -1)
         return std::string("RType");
     else if (std::get<0>(std::get<1>(result)) != -1)
         return std::string("IType");
-    else if (std::get<0>(std::get<2>(result)) != -1)
+    else if ((std::get<2>(result)) != -1)
         return std::string("JType");
     // else if (std::get<0>(std::get<3>(result)) != -1)
         // return std::string("file type");
-    //else
-    return std::string("");
+    else return std::string("");
 }
 
 // bool SyntaxChecker::checkBits(std::string inst) const {

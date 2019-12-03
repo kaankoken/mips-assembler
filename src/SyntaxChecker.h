@@ -1,9 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <cstring>
 #include <vector>
-#include <bitset>
 #include <stack> 
 #include "Instructions/RType.h"
 #include "Instructions/IType.h"
@@ -16,7 +14,7 @@ class SyntaxChecker : RType, IType, JType {
         SyntaxChecker();
         ~SyntaxChecker();
 
-        void checkSyntax(std::string);
+        std::vector<std::string> checkSyntax(std::string);
         std::string checkInstType(std::string);
         bool checkBits(std::string) const;
 };
