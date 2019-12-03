@@ -4,8 +4,8 @@
  * It also used for populating the data
 */
 JType::JType() {
-    jTypeInst.insert({"test2", {5, 5}});
-    jTypeInst.insert({"test3", {6, 5}});
+    jTypeInst.insert({"j", 2});
+    jTypeInst.insert({"jal", 3});
 }
 /**
  * Descrutive of Jtype instructions
@@ -14,25 +14,25 @@ JType::~JType() {
     jTypeInst.clear();
 }
 /**
- * @return unordered_map<string, pair<int, int>>
+ * @return unordered_map<string, int>
  * It returns the whole instruction set that defined.
 */
-std::unordered_map<std::string, std::pair<int, int>> JType::getWholeInst() const {
+std::unordered_map<std::string, int> JType::getWholeInst() const {
     return jTypeInst;
 }
 /**
  * @param key -> string
- * @return pair<int, int>
- * if instruction is found return tuple
- * else return -1, -1
+ * @return int
+ * if instruction is found return int
+ * else return -1
 */
-std::pair<int, int> JType::findInst(std::string key) const {
+int JType::findInst(std::string key) const {
     auto instruction = jTypeInst.find(key);
     
     if (instruction == jTypeInst.end()) {
         std::cout << "Not Found" << std::endl;
-        return std::make_pair(-1, -1);
+        return -1;
     }
     else
-        return std::make_pair(std::get<0>(instruction->second), std::get<1>(instruction->second));
+        return instruction->second;
 }
