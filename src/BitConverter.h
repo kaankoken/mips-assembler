@@ -1,19 +1,27 @@
 #pragma once
 
-class BitConverter {
+#include <bitset>
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include "Instructions/RType.h"
+#include "Instructions/IType.h"
+#include "Instructions/JType.h"
+#include "Instructions/Registers.h"
+
+class BitConverter: RType, IType, JType, Registers {  
     private:
-        int jTypeAreaLen;
-        int rTypeAreaLen[5];
-        int iTypeAreaLen[3];
-    
+        std::string bin(int, int);
+        std::string splitOrder(std::string *);
+
     public:
         BitConverter();
         ~BitConverter();
-        
+
         void DecToHex();
-        void DecToBin();
+        void DecToBin(std::string, std::vector<std::string>);
         void BinToHex();
         void BinToDec();
         void HexToDec();
         void HexToBin();
-}
+};
