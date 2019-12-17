@@ -2,6 +2,7 @@
 #include "ErrorHandling.h"
 #include <fstream>
 #include <filesystem>
+#include <vector>
 
 class Main : ErrorHandling {
     public:
@@ -40,6 +41,17 @@ class Main : ErrorHandling {
                     file.close();
                 }
             }
+        }
+        void writeFile(std::vector<std::string> instructionSet){
+            std::ofstream outfile ("output.txt");
+            std::vector<std::string>::iterator it = instructionSet.begin();
+
+            while(it != instructionSet.end()){
+                outfile << *it << std::endl;
+            }
+
+            outfile.close();
+
         }
 
 };
