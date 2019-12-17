@@ -42,6 +42,7 @@ class Main : ErrorHandling {
                 }
             }
         }
+
         void writeFile(std::vector<std::string> instructionSet){
             std::ofstream outfile ("output.txt");
             std::vector<std::string>::iterator it = instructionSet.begin();
@@ -54,6 +55,27 @@ class Main : ErrorHandling {
 
         }
 
+        std::pair<std::vector<int>, std::vector<int>> labelAndPcCounter(std::vector<std::string> instructionSet) {
+            int pc = 80001000;
+            
+            std::vector<int> pcCounter;
+            std::vector<int> labels;
+
+            std::pair<std::vector<int>, std::vector<int>> result;
+        
+            std::vector<std::string>::iterator it = instructionSet.begin();
+
+            while(it != instructionSet.end()) {
+                pcCounter.push_back(pc);
+                if (it->find(':') != std::string::npos)
+                    labels.push_back(pc);
+                pc += 4;
+                it++;
+            }
+            result = std::make_pair(labels, pcCounter);
+      
+            return result;
+        }
 };
 
 int main(int argc, char **argv) {
