@@ -7,10 +7,13 @@ SyntaxChecker::~SyntaxChecker() {};
 std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
     std::stack<char> temp;
     std::string result = checkInstType(inst);
-    
-    if (result.length() == 0)
+    std::vector<std::string> text;
+
+    if (result.length() == 0) {
         std::cout << "Error" << std::endl;
-        //return NULL or false
+        return text;
+    }
+
     for (std::string::iterator it = inst.begin(); it != inst.end(); ++it) {
         if (temp.size() > 0)
             if (temp.top() == '(' && *it == ')')
@@ -26,9 +29,9 @@ std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
         std::cout << "Syntax Error" << std::endl;
     else
         std::cout << "No Error" << std::endl;
-    std::vector<std::string> text = splitInst(inst);
+    text = splitInst(inst);
+    
     return text;
-    //check bits
 }
 
 std::string SyntaxChecker::checkInstType(std:: string instType) {
@@ -45,14 +48,6 @@ std::string SyntaxChecker::checkInstType(std:: string instType) {
         // return std::string("file type");
     else return std::string("");
 }
-
-// bool SyntaxChecker::checkBits(std::string inst) const {
-    // int n = 5;
-    // std::bitset x = std::bitset<sizeof(n)>(n);
-// 
-    // std::cout<< std::stoi(x.to_string(), nullptr, 2);
-// }
-
 std::vector<std::string> SyntaxChecker::splitInst(std::string inst) {
     size_t pos = 0;
     std::string token, delimiter = " ";
