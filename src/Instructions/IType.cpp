@@ -54,3 +54,20 @@ std::pair<int, std::string> IType::findInst(std::string key) const {
     else
         return std::make_pair(std::get<0>(instruction->second), std::get<1>(instruction->second));
 }
+
+// std::string IType::fieldChecker(std::vector<std::string> inst) {
+    //opcode $rs $rt imm
+    // if (inst.size() == 4) {
+        // std::string temp = inst.back();
+        // if (temp.at(0) > 96 && temp.at(0) < 123)
+            // return std::string("rs");
+        // else
+            // return std::string("imm");
+    // }
+    // else {
+        // if (std::strcmp(inst.at(0).c_str(), "lui") == 0)
+            // return std::string("rt");
+        // else
+            // return std::string("rs");
+    // }
+// }

@@ -1,18 +1,19 @@
 #include "SyntaxChecker.h"
 
-SyntaxChecker::SyntaxChecker() : rTypeAreaLen { 5, 5, 5, 5, 6 },
-                                 iTypeAreaLen { 5, 5, 16 },      
-                                 jTypeAreaLen { 26 } {}
+SyntaxChecker::SyntaxChecker() {};
 SyntaxChecker::~SyntaxChecker() {};
 
 //change return type
-void SyntaxChecker::checkSyntax(std::string inst) {
+std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
     std::stack<char> temp;
     std::string result = checkInstType(inst);
-    
-    if (result.length() == 0)
+    std::vector<std::string> text;
+
+    if (result.length() == 0) {
         std::cout << "Error" << std::endl;
-        //return NULL or false
+        return text;
+    }
+
     for (std::string::iterator it = inst.begin(); it != inst.end(); ++it) {
         if (temp.size() > 0)
             if (temp.top() == '(' && *it == ')')
@@ -28,14 +29,15 @@ void SyntaxChecker::checkSyntax(std::string inst) {
         std::cout << "Syntax Error" << std::endl;
     else
         std::cout << "No Error" << std::endl;
-    std::vector<std::string> text = splitInst(inst);
-    //check bits
+    text = splitInst(inst);
+    
+    return text;
 }
 
 std::string SyntaxChecker::checkInstType(std:: string instType) {
     auto key = instType.substr(0, instType.find(' '));
     std::tuple result = std::make_tuple(RType::findInst(key), IType::findInst(key), JType::findInst(key));
-    std::cout << std::get<0>(std::get<0>(result));
+
     if (std::get<0>(std::get<0>(result)) != -1)
         return std::string("RType");
     else if (std::get<0>(std::get<1>(result)) != -1)
@@ -44,17 +46,8 @@ std::string SyntaxChecker::checkInstType(std:: string instType) {
         return std::string("JType");
     // else if (std::get<0>(std::get<3>(result)) != -1)
         // return std::string("file type");
-    //else
-    return std::string("");
+    else return std::string("");
 }
-
-// bool SyntaxChecker::checkBits(std::string inst) const {
-    // int n = 5;
-    // std::bitset x = std::bitset<sizeof(n)>(n);
-// 
-    // std::cout<< std::stoi(x.to_string(), nullptr, 2);
-// }
-
 std::vector<std::string> SyntaxChecker::splitInst(std::string inst) {
     size_t pos = 0;
     std::string token, delimiter = " ";

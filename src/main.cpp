@@ -3,7 +3,7 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
-#include <map>
+
 class Main : ErrorHandling {
     public:
         Main() { ErrorHandling(); }
@@ -84,14 +84,7 @@ int main(int argc, char **argv) {
     std::string fileName = "./test1.txt";
     assembler.readFile(fileName);
     std::cout << "Welcome to the MIPS ASSEMBLER" << std::endl;
-    std::vector<std::string> x;
-    x.push_back("add s1 s3 s1");
-    x.push_back("label: s1 s2 s3");
-    x.push_back("bne s1 s2 label");
-    x.push_back("label1: s1 s2 s3");
 
-    std::pair<std::map<std::string, int>, std::vector<int>> result = assembler.labelAndPcCounter(x);
-    std::cout<< "";
     do {
         menuOption = assembler.menu();
         switch (menuOption) {

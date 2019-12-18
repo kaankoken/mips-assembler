@@ -58,5 +58,22 @@ std::tuple<int, int, std::string> RType::findInst(std::string key) const {
         return std::make_tuple(-1, -1, "");
     }
     else
-        return std::make_tuple(std::get<0>(instruction->second), std::get<1>(instruction->second), std::get<2>(instruction->second));
+        return std::make_tuple(std::get<0>(instruction->second), std::get<1>(instruction->second),
+        std::get<2>(instruction->second));
 }
+
+// std::string RType::fieldChecker(std::vector<std::string> inst) {
+    // if (inst.size() == 4) {
+        // std::string temp = inst.back();
+        // if (temp.at(0) > 96 && temp.at(0) < 123)
+            // return std::string("rs");
+        // else
+            // return std::string("shamt");
+    // }
+    // else {
+        // if (std::strcmp(inst.at(0).c_str(), "mflo") == 0 || std::strcmp(inst.at(0).c_str(), "mfhi") == 0)
+            // return std::string("rd");
+        // else
+            // return std::string("rs");
+    // }
+// }
