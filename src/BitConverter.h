@@ -19,7 +19,7 @@ class BitConverter: RType, IType, JType, Registers {
         ~BitConverter();
 
         void DecToHex();
-        void DecToBin(std::string, std::vector<std::string>);
+        void DecToBin(std::string, std::vector<std::string>, std::vector<int>, std::vector<int>);
         void BinToHex();
         void BinToDec();
         void HexToDec();

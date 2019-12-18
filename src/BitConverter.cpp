@@ -11,9 +11,10 @@ void BitConverter::BinToDec() {
     // 
 // }
 
-void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst) {
+void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
+  std::vector<int> label, std::vector<int> pcCounter) {
     std::string result;
-    int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0;
+    int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0, imm = 0;
 
     if (std::strcmp(instType.c_str(), "RType") == 0) {
         std::tuple instructions = RType::findInst(inst.at(0));
@@ -43,40 +44,71 @@ void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst) 
                     shamt = std::stoi(*it, 0, 16);
                 }
             }
-
-            if (shamt > 31) {
-                std::cout << "Shamt value is bigger than 5 bits" << std::endl;
-                exit(1);
-            }
-            if (shamt < 0) {
-                std::cout << "Shamt value cannot be negative" << std::endl;
-                exit(1);
-            }
-
             it++;
         }
+
+        if (shamt > 31) {
+            std::cout << "Shamt value is bigger than 5 bits" << std::endl;
+            exit(1);
+        }
+        if (shamt < 0) {
+            std::cout << "Shamt value cannot be negative" << std::endl;
+            exit(1);
+        }
+
         //func
         func = std::get<1>(instructions);
-    }
-    else if (std::strcmp(instType.c_str(), "IType") == 0) {
-        
-    }
-    else {
-    }
-    if (shamt <= 32767 || shamt >= -32768) {
+        //finished inst
         result.append(BitConverter::bin(5, rs));
         result.append(BitConverter::bin(5, rt));
         result.append(BitConverter::bin(5, rd));
         result.append(BitConverter::bin(5, shamt));
         result.append(BitConverter::bin(6, func));
+    }
+    else if (std::strcmp(instType.c_str(), "IType") == 0) {
+        std::tuple instructions = IType::findInst(inst.at(0));
+        std::string instOrder = std::get<1>(instructions);
 
-        std::cout << result << std::endl;
+        result.append(BitConverter::bin(6, std::get<0>(instructions)));
+        
+        std::vector<std::string>::iterator it = inst.begin() + 1;
+        while (!instOrder.empty()) {
+            std::string temp = splitOrder(&instOrder);
+            if (std::strcmp(temp.c_str(), "rs") == 0)
+                rs = Registers::findInst(*it);
+            else if (std::strcmp(temp.c_str(), "rt") == 0)
+                rt = Registers::findInst(*it);
+            else {
+                if (label.size() > 0) {
+                    
+                }
+                if (it->find("0x") == std::string::npos)
+                    imm = std::stoi(*it, 0, 10);
+                else {
+                    size_t pos = it->find("0x");
+                    it->erase(it->begin(), it->begin() + pos + 2);
+                    imm = std::stoi(*it, 0, 16);
+                }
+            }
+            it++;
+        }
+        /*
+            bne s1 s2 label
+            -------------------
+            label:
+        */
+        if (imm > 32767 || imm < -32768) {
+            std::cout << "Immediate value is bigger than 16 bits" << std::endl;
+            exit(1);
+        }
+
+        result.append(BitConverter::bin(5, rs));
+        result.append(BitConverter::bin(5, rt));
+        result.append(BitConverter::bin(16, imm));
     }
     else {
-        std::cout << "Immediate value is bigger than 16 bits" << std::endl;
-        exit(1);
     }
-
+    std::cout << result << std::endl;
 }
 // 
 // void BitConverter::DecToHex() {
