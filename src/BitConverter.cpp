@@ -3,14 +3,6 @@
 BitConverter::BitConverter() {}
 BitConverter::~BitConverter() {}
 
-void BitConverter::BinToDec() {
-
-}
-
-// void BitConverter::BinToHex() {
-    // 
-// }
-
 void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
   std::map<std::string, int> label, int pcCounter) {
     std::string result;
@@ -98,11 +90,7 @@ void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
             }
             it++;
         }
-        /*
-            bne s1 s2 label
-            -------------------
-            label:
-        */
+
         if (imm > 32767 || imm < -32768) {
             std::cout << "Immediate value is bigger than 16 bits" << std::endl;
             exit(1);
@@ -113,21 +101,19 @@ void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
         result.append(BitConverter::bin(16, imm));
     }
     else {
+        std::tuple instructions = JType::findInst(inst.at(0));
+        result.append(BitConverter::bin(6, std::get<0>(instructions)));
+        std::vector<std::string>::iterator it = inst.begin() + 1;
+        
+        std::map<std::string, int>::iterator mapIterator = label.find(*it + ":");
+        std::string addr = BitConverter::bin(32, mapIterator->second);
+        
+        addr = addr.substr(4, 26);
+        result.append(addr);
+
     }
     std::cout << result << std::endl;
 }
-// 
-// void BitConverter::DecToHex() {
-// 
-// }
-// 
-// void BitConverter::HexToBin() {
-// 
-// }
-// 
-// void BitConverter::HexToDec() {
-    // 
-// }
 
 std::string BitConverter::bin(int size, int inst) {
     unsigned i;
