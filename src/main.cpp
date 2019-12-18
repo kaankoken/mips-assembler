@@ -2,6 +2,7 @@
 #include "ErrorHandling.h"
 #include <fstream>
 #include <filesystem>
+#include <vector>
 
 class Main : ErrorHandling {
     public:
@@ -42,6 +43,38 @@ class Main : ErrorHandling {
             }
         }
 
+        void writeFile(std::vector<std::string> instructionSet){
+            std::ofstream outfile ("output.txt");
+            std::vector<std::string>::iterator it = instructionSet.begin();
+
+            while(it != instructionSet.end()){
+                outfile << *it << std::endl;
+            }
+
+            outfile.close();
+
+        }
+
+        std::pair<std::map<std::string, int>, std::vector<int>> labelAndPcCounter(std::vector<std::string> instructionSet) {
+            int pc = 80001000;
+
+            std::vector<int> pcCounter;
+            std::map<std::string, int> labels;
+        
+            std::vector<std::string>::iterator it = instructionSet.begin();
+
+            while(it != instructionSet.end()) {
+                pcCounter.push_back(pc);
+
+                if (it->find(':') != std::string::npos) {
+                    labels.insert(labels.begin(), {it->substr(0, it->find(':') + 1), pc});
+                }
+                pc += 4;
+                it++;
+            }
+            
+            return std::make_pair(labels, pcCounter);;
+        }
 };
 
 int main(int argc, char **argv) {
