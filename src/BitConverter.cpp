@@ -12,7 +12,7 @@ void BitConverter::BinToDec() {
 // }
 
 void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
-  std::vector<int> label, std::vector<int> pcCounter) {
+  std::map<std::string, int> label, int pcCounter) {
     std::string result;
     int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0, imm = 0;
 
@@ -72,6 +72,7 @@ void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
         
         std::vector<std::string>::iterator it = inst.begin() + 1;
+        std::map<std::string, int>::iterator mapIterator;
         while (!instOrder.empty()) {
             std::string temp = splitOrder(&instOrder);
             if (std::strcmp(temp.c_str(), "rs") == 0)
@@ -80,7 +81,12 @@ void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
                 rt = Registers::findInst(*it);
             else {
                 if (label.size() > 0) {
-                    
+                    if (label.find(*it + ":") != label.end()) {
+                        mapIterator = label.find(*it + ":");
+                        int diff = mapIterator->second - pcCounter;
+                        diff /= 4;
+                        *it = std::to_string(diff);
+                    }
                 }
                 if (it->find("0x") == std::string::npos)
                     imm = std::stoi(*it, 0, 10);

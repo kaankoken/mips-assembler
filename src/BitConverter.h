@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <map>
 #include "Instructions/RType.h"
 #include "Instructions/IType.h"
 #include "Instructions/JType.h"
@@ -19,7 +20,7 @@ class BitConverter: RType, IType, JType, Registers {
         ~BitConverter();
 
         void DecToHex();
-        void DecToBin(std::string, std::vector<std::string>, std::vector<int>, std::vector<int>);
+        void DecToBin(std::string, std::vector<std::string>, std::map<std::string, int>, int);
         void BinToHex();
         void BinToDec();
         void HexToDec();
