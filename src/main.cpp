@@ -104,6 +104,7 @@ int main(int argc, char **argv) {
     SyntaxChecker syntax;
     BitConverter converter;
     //assembler.readFile(fileName);
+    
     std::pair<std::map<std::string, int>, std::vector<int>> labelsAndPc;
     std::vector<std::vector<std::string>> instructions;
     std::vector<std::string> result;
@@ -160,7 +161,8 @@ int main(int argc, char **argv) {
             instIterator++;
             pcIterator++;
         }
-
+        
+        result = converter.BinToHex(result);
         if (menuOption == '1')
             assembler.displayInstructions(result);
         else if (menuOption == '2')
