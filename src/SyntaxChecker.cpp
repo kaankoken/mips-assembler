@@ -10,7 +10,8 @@ std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
     std::vector<std::string> text;
 
     if (result.length() == 0) {
-        std::cout << "Error" << std::endl;
+        std::cout << "Instruction could not found" << std::endl;
+        exit(1);
         return text;
     }
 
@@ -24,18 +25,28 @@ std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
         else if (*it == ',' || *it == ')')
             temp.pop();
     }
-    temp.pop();
-    if (temp.size() > 0)
+    if (temp.size() != 0)
+        temp.pop();
+    if (temp.size() > 0) {
         std::cout << "Syntax Error" << std::endl;
-    else
-        std::cout << "No Error" << std::endl;
+        exit(1);
+    }
+
     text = splitInst(inst);
     
     return text;
 }
 
-std::string SyntaxChecker::checkInstType(std:: string instType) {
+std::string SyntaxChecker::checkInstType(std::string instType) {
     auto key = instType.substr(0, instType.find(' '));
+    
+    if (key[key.size() - 1] == ':') {
+        size_t pos = instType.find(' ');
+        key = instType.substr(pos, pos);
+        key = key.substr(1, key.size());
+        key = key.substr(0, key.find(' '));
+    }
+
     std::tuple result = std::make_tuple(RType::findInst(key), IType::findInst(key), JType::findInst(key));
 
     if (std::get<0>(std::get<0>(result)) != -1)

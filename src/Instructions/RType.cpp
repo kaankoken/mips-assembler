@@ -54,7 +54,6 @@ std::tuple<int, int, std::string> RType::findInst(std::string key) const {
     auto instruction = rTypeInst.find(key);
     
     if (instruction == rTypeInst.end()) {
-        std::cout << "Not Found" << std::endl;
         return std::make_tuple(-1, -1, "");
     }
     else
