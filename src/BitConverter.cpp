@@ -75,7 +75,7 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
                 if (label.size() > 0) {
                     if (label.find(*it + ":") != label.end()) {
                         mapIterator = label.find(*it + ":");
-                        int diff = mapIterator->second - pcCounter;
+                        int diff = mapIterator->second - pcCounter - 4;
                         diff /= 4;
                         *it = std::to_string(diff);
                     }
