@@ -30,7 +30,6 @@ int JType::findInst(std::string key) const {
     auto instruction = jTypeInst.find(key);
     
     if (instruction == jTypeInst.end()) {
-        std::cout << "Not Found" << std::endl;
         return -1;
     }
     else

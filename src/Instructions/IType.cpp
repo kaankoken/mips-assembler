@@ -48,7 +48,6 @@ std::pair<int, std::string> IType::findInst(std::string key) const {
     auto instruction = iTypeInst.find(key);
     
     if (instruction == iTypeInst.end()) {
-        std::cout << "Not Found" << std::endl;
         return std::make_pair(-1, "");
     }
     else
