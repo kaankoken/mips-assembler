@@ -5,6 +5,7 @@
 */
 Registers::Registers() {
     registers.insert({"zero", 0});
+    registers.insert({"at", 1});    
     registers.insert({"v0", 2});
     registers.insert({"v1", 3});
     registers.insert({"a0", 4});
@@ -29,6 +30,11 @@ Registers::Registers() {
     registers.insert({"s5", 21});
     registers.insert({"s6", 22});
     registers.insert({"s7", 23});
+    registers.insert({"k0", 26});
+    registers.insert({"k1", 27});
+    registers.insert({"gp", 28});
+    registers.insert({"sp", 29});
+    registers.insert({"fp", 30});
     registers.insert({"ra", 31});
 }
 /**
