@@ -154,3 +154,44 @@ std::string BitConverter::splitOrder(std::string *instOrder) {
     instOrder->erase(0, pos + 1);
     return token;
 }
+
+std::vector<std::string> BitConverter::BinToHex(std::vector<std::string> binInst) {
+    std::map<std::string, char> lookUpTable;
+    std::vector<std::string>::iterator it = binInst.begin();
+    std::vector<std::string> result;
+
+    lookUpTable.insert({"0000", '0'});
+    lookUpTable.insert({"0001", '1'});
+    lookUpTable.insert({"0010", '2'});
+    lookUpTable.insert({"0011", '3'});
+    lookUpTable.insert({"0100", '4'});
+    lookUpTable.insert({"0101", '5'});
+    lookUpTable.insert({"0110", '6'});
+    lookUpTable.insert({"0111", '7'});
+    lookUpTable.insert({"1000", '8'});
+    lookUpTable.insert({"1001", '9'});
+    lookUpTable.insert({"1010", 'A'});
+    lookUpTable.insert({"1011", 'B'});
+    lookUpTable.insert({"1100", 'C'});
+    lookUpTable.insert({"1101", 'D'});
+    lookUpTable.insert({"1110", 'E'});
+    lookUpTable.insert({"1111", 'F'});
+    
+    while (it != binInst.end()) {
+        int splitter = 0;
+        std::string key;
+        std::string temp = "0x";
+        do {
+            key = it->substr(splitter, 4);
+            if (splitter < 32) {
+                std::map<std::string, char>::iterator mapIterator = lookUpTable.find(key);
+                temp = temp + mapIterator->second;
+            }
+            splitter += 4;
+        } while (key.compare(""));
+        result.push_back(temp);
+        it++;
+    }
+
+    return result;
+}
