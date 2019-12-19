@@ -3,7 +3,7 @@
 BitConverter::BitConverter() {}
 BitConverter::~BitConverter() {}
 
-void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
+std::string BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
   std::map<std::string, int> label, int pcCounter) {
     std::string result;
     int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0, imm = 0;
@@ -112,7 +112,7 @@ void BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
         result.append(addr);
 
     }
-    std::cout << result << std::endl;
+    return result;
 }
 
 std::string BitConverter::bin(int size, int inst) {

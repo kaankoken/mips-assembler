@@ -19,5 +19,5 @@ class BitConverter: RType, IType, JType, Registers {
         BitConverter();
         ~BitConverter();
 
-        void DecToBin(std::string, std::vector<std::string>, std::map<std::string, int>, int);
+        std::string DecToBin(std::string, std::vector<std::string>, std::map<std::string, int>, int);
 };
