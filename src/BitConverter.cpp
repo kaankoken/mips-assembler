@@ -15,10 +15,10 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
         
         std::string instOrder = std::get<2>(instructions);
        
-        //Converts opcode into hexadecimal
+        //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
         
-        //Converts registers into hexadecimal
+        //Converts registers into binary
         std::vector<std::string>::iterator it = inst.begin() + 1;
         while (!instOrder.empty()) {
             std::string temp = splitOrder(&instOrder);
@@ -63,10 +63,10 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
         std::tuple instructions = IType::findInst(inst.at(0));
         std::string instOrder = std::get<1>(instructions);
 
-        //Converts opcode into hexadecimal
+        //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
         
-        //Converts registers into hexadecimal
+        //Converts registers into binary
         std::vector<std::string>::iterator it = inst.begin() + 1;
         std::map<std::string, int>::iterator mapIterator;
         while (!instOrder.empty()) {
@@ -109,7 +109,7 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
     //If the given instruction is not R-Type or I-type then it is J-Type
     else {
         std::tuple instructions = JType::findInst(inst.at(0));
-        //Converts opcode into hexadecimal
+        //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
 
         std::vector<std::string>::iterator it = inst.begin() + 1;
