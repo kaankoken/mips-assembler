@@ -31,6 +31,7 @@ class Main : ErrorHandling {
             return menuOption.at(0);
         }
 
+        //Reads the instructions from file if file exists, if it doesn't exist then it gives error
         std::vector<std::string> readFile(std::string fileName) const {
             bool isExist = std::filesystem::exists(fileName);
             std::vector<std::string> instructionSet;
@@ -49,6 +50,7 @@ class Main : ErrorHandling {
             return instructionSet;
         }
 
+        //Writes the output of assembler
         void writeFile(std::vector<std::string> instructionSet){
             std::ofstream outfile ("output.obj");
             std::vector<std::string>::iterator it = instructionSet.begin();
@@ -61,6 +63,7 @@ class Main : ErrorHandling {
             outfile.close();
         }
 
+        //Finds the 'label:' part inside instructions for jump operation to jump that instruction
         std::pair<std::map<std::string, int>, std::vector<int>> labelAndPcCounter(std::vector<std::string> instructionSet) {
             int pc = 80001000;
 
@@ -82,6 +85,7 @@ class Main : ErrorHandling {
             return std::make_pair(labels, pcCounter);;
         }
 
+        //Shows the instructions
         void displayInstructions(std::vector<std::string> instructionSet) {
             std::vector<std::string>::iterator it = instructionSet.begin();
 
@@ -92,6 +96,7 @@ class Main : ErrorHandling {
         }
 };
 
+//Main function of the assembler
 int main(int argc, char **argv) {
     std::vector<std:: string> instructionSet;
     char menuOption;
@@ -103,14 +108,15 @@ int main(int argc, char **argv) {
     Main assembler;
     SyntaxChecker syntax;
     BitConverter converter;
-    //assembler.readFile(fileName);
     
     std::pair<std::map<std::string, int>, std::vector<int>> labelsAndPc;
     std::vector<std::vector<std::string>> instructions;
     std::vector<std::string> result;
+    //Selects the correct menu option according to input comes from user
     do {
         menuOption = assembler.menu();
         switch (menuOption) {
+            //Takes input manually from terminal
             case '1': {
                 int numbOfInst;
                 std::cout << "\nHow many lines of code will be entered" << std::endl;
@@ -125,22 +131,26 @@ int main(int argc, char **argv) {
                 }
                 break;
             }
+            //Takes input from a file
             case '2':
                 std::cout << "\nEnter a file name: ";
                 std::cin >> fileName;
                 instructionSet = assembler.readFile(fileName);
                 break;
+            //Closes assembler
             case '3':
                 std::cout << "\nGood Bye!!!" << std::endl;
                 break;
+            //If wrong input is entered by user it displays an error message
             default:
                 std::cout << "\nWrong Option!!!" << std::endl;
                 break;
         }
-
+        //Finds out where label starts from
         labelsAndPc = assembler.labelAndPcCounter(instructionSet);
         std::vector<std::string>::iterator it = instructionSet.begin();
         int size = 0;
+
         while (size < instructionSet.size() && it != instructionSet.end()) {
             instructions.push_back(syntax.checkSyntax(*it));
             size++;
@@ -161,7 +171,9 @@ int main(int argc, char **argv) {
             instIterator++;
             pcIterator++;
         }
-        
+        /**If user selects option 1 then output prints on terminal 
+        *however if user selects option 2 the result prints on output file
+        **/
         result = converter.BinToHex(result);
         if (menuOption == '1')
             assembler.displayInstructions(result);

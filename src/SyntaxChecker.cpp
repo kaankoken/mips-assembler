@@ -3,7 +3,7 @@
 SyntaxChecker::SyntaxChecker() {};
 SyntaxChecker::~SyntaxChecker() {};
 
-//change return type
+//Checks whether the entered syntax is correct or not
 std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
     std::stack<char> temp;
     std::string result = checkInstType(inst);
@@ -37,6 +37,7 @@ std::vector<std::string> SyntaxChecker::checkSyntax(std::string inst) {
     return text;
 }
 
+//Checks the instruciton type is correct or not
 std::string SyntaxChecker::checkInstType(std::string instType) {
     auto key = instType.substr(0, instType.find(' '));
     
@@ -55,10 +56,9 @@ std::string SyntaxChecker::checkInstType(std::string instType) {
         return std::string("IType");
     else if ((std::get<2>(result)) != -1)
         return std::string("JType");
-    // else if (std::get<0>(std::get<3>(result)) != -1)
-        // return std::string("file type");
     else return std::string("");
 }
+//Splits the instruction to parts
 std::vector<std::string> SyntaxChecker::splitInst(std::string inst) {
     size_t pos = 0;
     std::string token, delimiter = " ";

@@ -3,21 +3,22 @@
 BitConverter::BitConverter() {}
 BitConverter::~BitConverter() {}
 
+//Converts decimal to binary
 std::string BitConverter::DecToBin(std::string instType, std::vector<std::string>inst,
   std::map<std::string, int> label, int pcCounter) {
     std::string result;
     int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0, imm = 0;
 
+    //Checks whether the given instruction is Rtype or not
     if (std::strcmp(instType.c_str(), "RType") == 0) {
         std::tuple instructions = RType::findInst(inst.at(0));
         
-        //std::string instOrder = std::get<std::tuple_size<decltype(instructions)>::value - 1>(instructions);
         std::string instOrder = std::get<2>(instructions);
        
-        //op
+        //Converts opcode into hexadecimal
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
         
-        // registers
+        //Converts registers into hexadecimal
         std::vector<std::string>::iterator it = inst.begin() + 1;
         while (!instOrder.empty()) {
             std::string temp = splitOrder(&instOrder);
@@ -50,19 +51,22 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
 
         //func
         func = std::get<1>(instructions);
-        //finished inst
+        //Adds finished conversions into result
         result.append(BitConverter::bin(5, rs));
         result.append(BitConverter::bin(5, rt));
         result.append(BitConverter::bin(5, rd));
         result.append(BitConverter::bin(5, shamt));
         result.append(BitConverter::bin(6, func));
     }
+    //Checks whether the given instruciton is Itype or not
     else if (std::strcmp(instType.c_str(), "IType") == 0) {
         std::tuple instructions = IType::findInst(inst.at(0));
         std::string instOrder = std::get<1>(instructions);
 
+        //Converts opcode into hexadecimal
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
         
+        //Converts registers into hexadecimal
         std::vector<std::string>::iterator it = inst.begin() + 1;
         std::map<std::string, int>::iterator mapIterator;
         while (!instOrder.empty()) {
@@ -96,15 +100,21 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
             exit(1);
         }
 
+        //Adds finished conversions into result
         result.append(BitConverter::bin(5, rs));
         result.append(BitConverter::bin(5, rt));
         result.append(BitConverter::bin(16, imm));
     }
+
+    //If the given instruction is not R-Type or I-type then it is J-Type
     else {
         std::tuple instructions = JType::findInst(inst.at(0));
+        //Converts opcode into hexadecimal
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
+
         std::vector<std::string>::iterator it = inst.begin() + 1;
-        
+
+        //When it finds ':' inside given instrucitons it jumps to that label and converts that instruciton
         std::map<std::string, int>::iterator mapIterator = label.find(*it + ":");
         std::string addr = BitConverter::bin(32, mapIterator->second);
         
@@ -115,6 +125,7 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
     return result;
 }
 
+//Converts integer to binary
 std::string BitConverter::bin(int size, int inst) {
     unsigned i;
     int temp = inst; 
@@ -139,6 +150,7 @@ std::string BitConverter::bin(int size, int inst) {
     return result;
 } 
 
+//split order for rs rt rd instructions
 std::string BitConverter::splitOrder(std::string *instOrder) {
     size_t pos = 0;
     std::string token, delimeter = " ";
@@ -155,6 +167,7 @@ std::string BitConverter::splitOrder(std::string *instOrder) {
     return token;
 }
 
+//Converts from binary to hexadecimal
 std::vector<std::string> BitConverter::BinToHex(std::vector<std::string> binInst) {
     std::map<std::string, char> lookUpTable;
     std::vector<std::string>::iterator it = binInst.begin();
