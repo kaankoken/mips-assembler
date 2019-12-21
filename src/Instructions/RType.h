@@ -13,5 +13,4 @@ class RType {
                
         std::tuple<int, int, std::string> findInst(std::string) const;
         std::unordered_map<std::string, std::tuple<int, int, std::string>> getWholeInst() const;
-        std::string fieldChecker(std::vector<std::string>);
 };

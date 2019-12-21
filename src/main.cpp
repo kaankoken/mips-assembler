@@ -7,6 +7,7 @@
 
 #include "SyntaxChecker.h"
 #include "BitConverter.h"
+#include "Instructions/Pseudo.h"
 class Main : ErrorHandling {
     public:
         Main() { ErrorHandling(); }
@@ -108,7 +109,8 @@ int main(int argc, char **argv) {
     Main assembler;
     SyntaxChecker syntax;
     BitConverter converter;
-    
+    Pseudo pseudo;
+
     std::pair<std::map<std::string, int>, std::vector<int>> labelsAndPc;
     std::vector<std::vector<std::string>> instructions;
     std::vector<std::string> result;
@@ -146,6 +148,8 @@ int main(int argc, char **argv) {
                 std::cout << "\nWrong Option!!!" << std::endl;
                 break;
         }
+        //converts the pseudo instructions to equivalent versions
+        instructionSet = pseudo.convertInstructions(instructionSet);
         //Finds out where label starts from
         labelsAndPc = assembler.labelAndPcCounter(instructionSet);
         std::vector<std::string>::iterator it = instructionSet.begin();
