@@ -37,11 +37,16 @@ RType::RType() {
 RType::~RType() {
     rTypeInst.clear();
 }
+
+void RType::setter(std::vector<std::string> temp) {
+    rTypeInst.insert({ temp.at(1), {std::stoi(temp.at(2), 0, 10), std::stoi(temp.at(3), 0, 10), temp.at(4)}});
+    std::cout << "";
+}
 /**
  * @return unordered_map<string, tuple<int, int, std::string>>
  * It returns the whole instruction set that defined.
 */
-std::unordered_map<std::string, std::tuple<int, int, std::string>> RType::getWholeInst() const {
+std::unordered_map<std::string, std::tuple<int, int, std::string>> RType::getWholeInst() const{
     return rTypeInst;
 }
 /**
@@ -50,7 +55,7 @@ std::unordered_map<std::string, std::tuple<int, int, std::string>> RType::getWho
  * if instruction is found return tuple
  * else return -1, -1 , NULL
 */
-std::tuple<int, int, std::string> RType::findInst(std::string key) const {
+std::tuple<int, int, std::string> RType::findInst(std::string key) const{
     auto instruction = rTypeInst.find(key);
     
     if (instruction == rTypeInst.end()) {

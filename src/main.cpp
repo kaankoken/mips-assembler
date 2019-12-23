@@ -8,7 +8,11 @@
 #include "SyntaxChecker.h"
 #include "BitConverter.h"
 #include "Instructions/Pseudo.h"
-class Main : ErrorHandling {
+#include "Instructions/RType.h"
+#include "Instructions/IType.h"
+#include "Instructions/JType.h"
+
+class Main : ErrorHandling, RType, IType, JType{
     public:
         Main() { ErrorHandling(); }
         ~Main() {}
@@ -95,6 +99,38 @@ class Main : ErrorHandling {
                 it++;
             }
         }
+
+        std::vector<std::string> splitInst(std::string instruction) const {
+            size_t pos = 0;
+            std::vector<std::string> token;
+            std::string delimeter = ",";
+
+            while((pos = instruction.find(delimeter)) != std::string::npos) {
+                token.push_back(instruction.substr(0, pos));
+                instruction.erase(0, pos + delimeter.length());
+            }
+            token.push_back(instruction);
+            return token;
+        }
+
+        //Reads the instructions from file if file exists, if it doesn't exist then it gives error
+        void lookupTable(std::string fileName) {
+            std::vector<std::string> instructionSet = readFile(fileName);
+
+            std::vector<std::string>::iterator it = instructionSet.begin() + 1;
+            std::vector<std::string> temp = splitInst(*it);
+
+            while(it != instructionSet.end()) {
+                if (temp.at(0) == "rtype") {
+                    RType::setter(temp);
+                }
+                else if (temp.at(0) == "itype"){
+                }
+                else{
+                }
+                it++;
+            }
+        }
 };
 
 //Main function of the assembler
@@ -102,18 +138,21 @@ int main(int argc, char **argv) {
     std::vector<std:: string> instructionSet;
     char menuOption;
     
-    std::string fileName = "./test1.txt";
-    std::cout << "Welcome to the MIPS ASSEMBLER" << std::endl;
-    std::cout << "Made By Kaan Taha Köken & Ege Seçkin" << std::endl << std::endl;;
-    
     Main assembler;
     SyntaxChecker syntax;
     BitConverter converter;
     Pseudo pseudo;
-
     std::pair<std::map<std::string, int>, std::vector<int>> labelsAndPc;
     std::vector<std::vector<std::string>> instructions;
     std::vector<std::string> result;
+
+    std::string fileName = "lookupTable";
+    assembler.lookupTable(fileName);
+
+    std::cout << "Welcome to the MIPS ASSEMBLER" << std::endl;
+    std::cout << "Made By Kaan Taha Köken & Ege Seçkin" << std::endl << std::endl;;
+    
+    
     //Selects the correct menu option according to input comes from user
     do {
         menuOption = assembler.menu();
