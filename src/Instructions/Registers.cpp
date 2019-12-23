@@ -60,7 +60,6 @@ int Registers::findInst(std::string key) const {
     auto instruction = registers.find(key);
     
     if (instruction == registers.end()) {
-        std::cout << "Not Found" << std::endl;
         return -1;
     }
     else
