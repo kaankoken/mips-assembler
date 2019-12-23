@@ -35,3 +35,7 @@ int JType::findInst(std::string key) const {
     else
         return instruction->second;
 }
+
+void JType::setter(std::vector<std::string> temp) {
+    jTypeInst.insert({ temp.at(1), std::stoi(temp.at(2), 0, 10)});
+}

@@ -53,3 +53,7 @@ std::pair<int, std::string> IType::findInst(std::string key) const {
     else
         return std::make_pair(std::get<0>(instruction->second), std::get<1>(instruction->second));
 }
+
+void IType::setter(std::vector<std::string> temp) {
+    iTypeInst.insert({ temp.at(1), {std::stoi(temp.at(2), 0, 10), temp.at(3)}});
+}
