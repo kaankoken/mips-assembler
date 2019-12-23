@@ -8,10 +8,14 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
   std::map<std::string, int> label, int pcCounter) {
     std::string result;
     int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0, imm = 0;
+    auto key = inst.at(0).find(':');
+    std::string temp1 = inst.at(0);
 
+    if (key < inst.size())
+        temp1 = inst.at(1);
     //Checks whether the given instruction is Rtype or not
     if (std::strcmp(instType.c_str(), "RType") == 0) {
-        std::tuple instructions = SyntaxChecker::RType::findInst(inst.at(0));
+        std::tuple instructions = SyntaxChecker::RType::findInst(temp1);
         
         std::string instOrder = std::get<2>(instructions);
        
@@ -60,7 +64,7 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
     }
     //Checks whether the given instruciton is Itype or not
     else if (std::strcmp(instType.c_str(), "IType") == 0) {
-        std::tuple instructions = SyntaxChecker::IType::findInst(inst.at(0));
+        std::tuple instructions = SyntaxChecker::IType::findInst(temp1);
         std::string instOrder = std::get<1>(instructions);
 
         //Converts opcode into binary
@@ -108,7 +112,7 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
 
     //If the given instruction is not R-Type or I-type then it is J-Type
     else {
-        std::tuple instructions = SyntaxChecker::JType::findInst(inst.at(0));
+        std::tuple instructions = SyntaxChecker::JType::findInst(temp1);
         //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
 
