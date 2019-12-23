@@ -1,17 +1,17 @@
 #include "Pseudo.h"
 
 Pseudo::Pseudo() {
-    pseudoInst.insert({"bgt", {{"slt $at, 2, 1"}, {"bne $at, $zero, 3"}}});
-    pseudoInst.insert({"blt", {{"slt $at, 1, 2"}, {"bne $at, $zero, 3"}}});
-    pseudoInst.insert({"bge", {{"slt $at, 1, 2"}, {"beq $at, $zero, 3"}}});
-    pseudoInst.insert({"ble", {{"slt $at, 2, 1"}, {"beq $at, $zero, 3"}}});
-    pseudoInst.insert({"bgtu", {{"sltu $at, $2, $1"}, {"bne $at, $zero, 3"}}});
-    pseudoInst.insert({"beqz", {"beq 1, $zero, 2"}});
-    pseudoInst.insert({"clear", {"or 1, $zero, $zero"}});
-    pseudoInst.insert({"mul", {{"mult 2, 3"}, {"mflo 1"}}});
-    pseudoInst.insert({"move", {"or 1, 2, $zero"}});
-    pseudoInst.insert({"rem", {{"div 2, 3"}, {"mfhi 1"}}});
-    pseudoInst.insert({"not", {"nor 1, 2, $zero"}});
+    pseudoInst.insert({"bgt", {{"slt $at, rg2, rg1"}, {"bne $at, $zero, rg3"}}});
+    pseudoInst.insert({"blt", {{"slt $at, rg1, rg2"}, {"bne $at, $zero, rg3"}}});
+    pseudoInst.insert({"bge", {{"slt $at, rg1, rg2"}, {"beq $at, $zero, rg3"}}});
+    pseudoInst.insert({"ble", {{"slt $at, rg2, rg1"}, {"beq $at, $zero, rg3"}}});
+    pseudoInst.insert({"bgtu", {{"sltu $at, rg2, rg1"}, {"bne $at, $zero, rg3"}}});
+    pseudoInst.insert({"beqz", {"beq rg1, $zero, rg2"}});
+    pseudoInst.insert({"clear", {"or rg1, $zero, $zero"}});
+    pseudoInst.insert({"mul", {{"mult rg2, rg3"}, {"mflo rg1"}}});
+    pseudoInst.insert({"move", {"or rg1, rg2, $zero"}});
+    pseudoInst.insert({"rem", {{"div rg2, rg3"}, {"mfhi rg1"}}});
+    pseudoInst.insert({"not", {"nor rg1, rg2, $zero"}});
     pseudoInst.insert({"nop ", {"sll $zero, $zero, 0"}});
 }
 
@@ -39,24 +39,22 @@ std::vector<std::string> Pseudo::convertInstructions(std::vector<std::string> in
             size_t size = 0;
             while (equivalentInst->second.end() != equIt) {
                 std::string temp1 = equIt->c_str();
-
-                if (key < it->size()) {
-                    if (pos > 1)
-                        pos = 1;
+                if (pos > 1)
+                    pos = 1;
+                if (key < it->size())
                     pos++;
-                }
-                if (equIt->find('1') != std::string::npos) {
-                    temp1 = replaceStrings(temp.at(pos), temp1, temp1.find('1'));
-                }
-                pos++;
-
-                if (equIt->find('2') != std::string::npos) {
-                    temp1 = replaceStrings(temp.at(pos), temp1, temp1.find('2'));
+                if (equIt->find("rg1") != std::string::npos) {
+                    temp1 = replaceStrings(temp.at(pos), temp1, temp1.find("rg1"));
                 }
                 pos++;
 
-                if (equIt->find('3') != std::string::npos) {
-                    temp1 = replaceStrings(temp.at(pos), temp1, temp1.find('3'));
+                if (equIt->find("rg2") != std::string::npos) {
+                    temp1 = replaceStrings(temp.at(pos), temp1, temp1.find("rg2"));
+                }
+                pos++;
+
+                if (equIt->find("rg3") != std::string::npos) {
+                    temp1 = replaceStrings(temp.at(pos), temp1, temp1.find("rg3"));
                 }
                 pos++;
                 if (key < it->size() && size < 1)
@@ -66,6 +64,7 @@ std::vector<std::string> Pseudo::convertInstructions(std::vector<std::string> in
                 else {
                     instructionSet.insert(instructionSet.begin() + instSetPoint, temp1);
                     it = instructionSet.begin() + instSetPoint;
+                    instSetPoint++; 
                 }
 
                 equIt++;
@@ -97,8 +96,8 @@ std::string Pseudo::replaceStrings(std::string src, std::string desc, size_t ind
     std::string temp, temp1;
 
     temp = desc.substr(0, index);
-    if (index + 1 != desc.size()) {
-        temp1 = desc.substr(index + 2, desc.size());
+    if (index + 3 != desc.size()) {
+        temp1 = desc.substr(index + 4, desc.size());
         if (src.find(',') == std::string::npos)
             src.push_back(',');
     }
