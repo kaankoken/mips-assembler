@@ -1,0 +1,2 @@
+//Instruction Type(rtype, itype, jtype),Instruction name,opcode,Function(only rtype),Instruction order
+rtype,more,0,32,rd rs rt
