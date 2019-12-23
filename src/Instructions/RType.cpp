@@ -40,7 +40,6 @@ RType::~RType() {
 
 void RType::setter(std::vector<std::string> temp) {
     rTypeInst.insert({ temp.at(1), {std::stoi(temp.at(2), 0, 10), std::stoi(temp.at(3), 0, 10), temp.at(4)}});
-    std::cout << "";
 }
 /**
  * @return unordered_map<string, tuple<int, int, std::string>>

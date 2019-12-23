@@ -5,12 +5,9 @@
 #include <vector>
 #include <cstring>
 #include <map>
-#include "Instructions/RType.h"
-#include "Instructions/IType.h"
-#include "Instructions/JType.h"
 #include "Instructions/Registers.h"
-
-class BitConverter: RType, IType, JType, Registers {  
+#include "SyntaxChecker.h"
+class BitConverter: Registers, public SyntaxChecker {  
     private:
         std::string bin(int, int);
         std::string splitOrder(std::string *);

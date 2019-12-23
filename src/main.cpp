@@ -5,16 +5,12 @@
 #include <vector>
 #include <map>
 
-#include "SyntaxChecker.h"
 #include "BitConverter.h"
 #include "Instructions/Pseudo.h"
-#include "Instructions/RType.h"
-#include "Instructions/IType.h"
-#include "Instructions/JType.h"
 
-class Main : ErrorHandling, RType, IType, JType{
+class Main : ErrorHandling, public BitConverter{
     public:
-        Main() { ErrorHandling(); }
+        Main() { ErrorHandling(); BitConverter();}
         ~Main() {}
         
         char menu() {
@@ -122,11 +118,13 @@ class Main : ErrorHandling, RType, IType, JType{
 
             while(it != instructionSet.end()) {
                 if (temp.at(0) == "rtype") {
-                    RType::setter(temp);
+                    BitConverter::RType::setter(temp);
                 }
-                else if (temp.at(0) == "itype"){
+                else if (temp.at(0) == "itype") {
+                    BitConverter::IType::setter(temp);
                 }
-                else{
+                else {
+                    BitConverter::JType::setter(temp);
                 }
                 it++;
             }
@@ -139,8 +137,6 @@ int main(int argc, char **argv) {
     char menuOption;
     
     Main assembler;
-    SyntaxChecker syntax;
-    BitConverter converter;
     Pseudo pseudo;
     std::pair<std::map<std::string, int>, std::vector<int>> labelsAndPc;
     std::vector<std::vector<std::string>> instructions;
@@ -195,7 +191,7 @@ int main(int argc, char **argv) {
         int size = 0;
 
         while (size < instructionSet.size() && it != instructionSet.end()) {
-            instructions.push_back(syntax.checkSyntax(*it));
+            instructions.push_back(assembler.checkSyntax(*it));
             size++;
             it++;
         }
@@ -210,14 +206,14 @@ int main(int argc, char **argv) {
             else
                 type = instIterator->at(0);
 
-            result.push_back(converter.DecToBin(syntax.checkInstType(type), *instIterator, labelsAndPc.first, *pcIterator));
+            result.push_back(assembler.DecToBin(assembler.checkInstType(type), *instIterator, labelsAndPc.first, *pcIterator));
             instIterator++;
             pcIterator++;
         }
         /**If user selects option 1 then output prints on terminal 
         *however if user selects option 2 the result prints on output file
         **/
-        result = converter.BinToHex(result);
+        result = assembler.BinToHex(result);
         if (menuOption == '1')
             assembler.displayInstructions(result);
         else if (menuOption == '2')
