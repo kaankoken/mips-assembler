@@ -9,9 +9,16 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
     std::string result;
     int rs = 0, rt = 0, rd = 0, shamt = 0, func = 0, imm = 0;
     auto key = inst.at(0).find(':');
+   
     std::string temp1 = inst.at(0);
-
-    if (key < inst.size())
+    int size = 0;
+    std::vector<std::string>::iterator it = inst.begin();
+    
+    while(it != inst.end()){
+        size += it->size();
+        it ++;
+    }
+    if (key < size)
         temp1 = inst.at(1);
     //Checks whether the given instruction is Rtype or not
     if (std::strcmp(instType.c_str(), "RType") == 0) {
@@ -21,9 +28,12 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
        
         //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
-        
-        //Converts registers into binary
-        std::vector<std::string>::iterator it = inst.begin() + 1;
+        std::vector<std::string>::iterator it;
+        if (key < size)
+            it = inst.begin() + 2;
+        else
+            it = inst.begin() + 1;
+
         while (!instOrder.empty()) {
             std::string temp = splitOrder(&instOrder);
             if (std::strcmp(temp.c_str(), "rd") == 0)
@@ -69,9 +79,12 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
 
         //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
-        
-        //Converts registers into binary
-        std::vector<std::string>::iterator it = inst.begin() + 1;
+        std::vector<std::string>::iterator it;
+        if (key < size)
+            it = inst.begin() + 2;
+        else
+            it = inst.begin() + 1;
+
         std::map<std::string, int>::iterator mapIterator;
         while (!instOrder.empty()) {
             std::string temp = splitOrder(&instOrder);
@@ -108,6 +121,7 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
         result.append(BitConverter::bin(5, rs));
         result.append(BitConverter::bin(5, rt));
         result.append(BitConverter::bin(16, imm));
+        std::cout << "";
     }
 
     //If the given instruction is not R-Type or I-type then it is J-Type
@@ -116,7 +130,11 @@ std::string BitConverter::DecToBin(std::string instType, std::vector<std::string
         //Converts opcode into binary
         result.append(BitConverter::bin(6, std::get<0>(instructions)));
 
-        std::vector<std::string>::iterator it = inst.begin() + 1;
+         std::vector<std::string>::iterator it;
+        if (key < size)
+            it = inst.begin() + 2;
+        else
+            it = inst.begin() + 1;
 
         //When it finds ':' inside given instrucitons it jumps to that label and converts that instruciton
         std::map<std::string, int>::iterator mapIterator = label.find(*it + ":");
