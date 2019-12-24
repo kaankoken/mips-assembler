@@ -10,7 +10,7 @@ move $s0, $zero
 for1tst: slt $t0, $s0, $s3
 beq $t0, $zero, exit1
 addi $s1, $s0, -1
-for2tst: slti $to, $s1, 0
+for2tst: slti $t0, $s1, 0
 bne $t0, $zero, exit2
 sll $t1, $s1, 2
 add $t2, $s2, $t1

@@ -89,11 +89,12 @@ class Main : ErrorHandling, public BitConverter{
         //Shows the instructions
         void displayInstructions(std::vector<std::string> instructionSet) {
             std::vector<std::string>::iterator it = instructionSet.begin();
-
+            std::cout << "\n";
             while(it != instructionSet.end()) {
                 std::cout << *it << std::endl;
                 it++;
             }
+            std::cout << "\n";
         }
 
         std::vector<std::string> splitInst(std::string instruction) const {
