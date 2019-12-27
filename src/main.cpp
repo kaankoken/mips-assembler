@@ -113,21 +113,22 @@ class Main : ErrorHandling, public BitConverter{
         //Reads the instructions from file if file exists, if it doesn't exist then it gives error
         void lookupTable(std::string fileName) {
             std::vector<std::string> instructionSet = readFile(fileName);
-
-            std::vector<std::string>::iterator it = instructionSet.begin() + 1;
-            std::vector<std::string> temp = splitInst(*it);
-
-            while(it != instructionSet.end()) {
-                if (temp.at(0) == "rtype") {
-                    BitConverter::RType::setter(temp);
+            if (instructionSet.size() != 0) {
+                std::vector<std::string>::iterator it = instructionSet.begin() + 1;
+                std::vector<std::string> temp = splitInst(*it);
+    
+                while(it != instructionSet.end()) {
+                    if (temp.at(0) == "rtype") {
+                        BitConverter::RType::setter(temp);
+                    }
+                    else if (temp.at(0) == "itype") {
+                        BitConverter::IType::setter(temp);
+                    }
+                    else {
+                        BitConverter::JType::setter(temp);
+                    }
+                    it++;
                 }
-                else if (temp.at(0) == "itype") {
-                    BitConverter::IType::setter(temp);
-                }
-                else {
-                    BitConverter::JType::setter(temp);
-                }
-                it++;
             }
         }
 };
